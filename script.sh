@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Instalar herramientas de redes 
-install -y net-tools
-
 # Crear carpeta y copiar archivo
 mkdir /etc/dhcp3
 cp /etc/dhcp/dhcpd.conf /etc/dhcp3/
