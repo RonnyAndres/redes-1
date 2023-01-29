@@ -85,6 +85,7 @@ subnet 172.16.100.0 netmask 255.255.255.0 {
 ifconfig enp0s8 up
 ifconfig enp0s9 up
 ifconfig enp0s3 down 
+ifconfig enp0s10 down 
 
 # Iniciamos el servicio
 service isc-dhcp-server restart 
