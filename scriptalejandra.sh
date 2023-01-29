@@ -4,7 +4,7 @@
 mkdir /etc/dhcpprueba
 cp /etc/dhcp/dhcpd.conf /etc/dhcpprueba/
 chmod -R 777 /etc/dhcpprueba/dhcpd.conf
-chmod -R 777 /etc/dhcp3
+chmod -R 777 /etc/dhcpprueba
 
 
 # Modificar archivo de systemd
@@ -52,7 +52,7 @@ sleep 3
 # Presionar ENTER (Requisito de aplicar los cambios)
 #echo -ne '\n'
 # Agregar las interfaces correspondientes
-sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8 enp0s9"/' /etc/default/isc-dhcp-server
+sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8 enp0s9 enp0s10"/' /etc/default/isc-dhcp-server
 # Agregar las 2 subredes al archivo dhcpd.conf
 
 echo "subnet 172.100.100.0 netmask 255.255.255.0 {
@@ -65,12 +65,12 @@ echo "subnet 172.100.100.0 netmask 255.255.255.0 {
 class \"impresora\" {
   match if (substring(hardware, 1, 6) = 00:00:27:C0:78:FF);
 }
-class \"device1\" {
+class \"pc1\" {
   match if (substring(hardware, 1, 6) = 09:00:27:C0:78:FF);
 }
 subnet 172.16.100.0 netmask 255.255.255.0 {
   pool {
-    allow members of \"device1\";
+    allow members of \"pc1\";
     range 172.16.100.10 172.16.100.50;
   }
   pool {
