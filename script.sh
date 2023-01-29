@@ -15,8 +15,7 @@ sed -i 's#/etc/dhcp/dhcpd.conf#/etc/dhcp3/dhcpd.conf#g' /lib/systemd/system/isc-
 sed -i '30i\  /etc/dhcp3/dhcpd.conf r,' /etc/apparmor.d/usr.sbin.dhcpd
 
 # Configurar interfaz en netplan
-echo "
-network:
+echo "network:
   ethernets:
     enp0s3:
       dhcp4: true
