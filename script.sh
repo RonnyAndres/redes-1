@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Instalar herramientas de redes 
+install -y net-tools
+
 # Crear carpeta y copiar archivo
 mkdir /etc/dhcp3
 cp /etc/dhcp/dhcpd.conf /etc/dhcp3/
@@ -76,9 +79,17 @@ subnet 172.16.100.0 netmask 255.255.255.0 {
   max-lease-time 60; 
 }">> /etc/dhcp3/dhcpd.conf
 
-systemctl 
+# Subir las interfaces
+ifconfig enp0s8 up
+ifconfig enp0s9 up
+ifconfig enp0s3 down 
 
+# Iniciamos el servicio
 service isc-dhcp-server restart 
 service isc-dhcp-server status 
+echo -ne "\x03"
+
+
+
 
 
