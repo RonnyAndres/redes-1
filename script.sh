@@ -4,6 +4,8 @@
 mkdir /etc/dhcp3
 cp /etc/dhcp/dhcpd.conf /etc/dhcp3/
 chmod -R 777 /etc/dhcp3/dhcpd.conf
+chmod -R 777 /etc/dhcp3
+
 
 # Modificar archivo de systemd
 sed -i 's#/etc/dhcp/dhcpd.conf#/etc/dhcp3/dhcpd.conf#g' /lib/systemd/system/isc-dhcp-server.service
