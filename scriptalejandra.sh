@@ -62,20 +62,18 @@ echo "subnet 172.100.100.0 netmask 255.255.255.0 {
   default-lease-time 60;
   max-lease-time 60;
 }
-class \"impresora\" {
-  match if (substring(hardware, 1, 6) = 00:00:27:C0:78:FF);
-}
+
 class \"pc1\" {
-  match if (substring(hardware, 1, 6) = 09:00:27:C0:78:FF);
+  match if (substring(hardware, 1, 6) = 00:11:22:33:44:55);
 }
 subnet 172.16.100.0 netmask 255.255.255.0 {
   pool {
     allow members of \"pc1\";
     range 172.16.100.10 172.16.100.50;
   }
-  pool {
-    allow members of \"impresora\";
-    range 172.16.100.51 172.16.100.51;
+  host impresora {
+    hardware ethernet 00:11:22:33:44:55;
+    fixed-address 192.168.1.100;
   }
   option routers 172.16.100.1;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
