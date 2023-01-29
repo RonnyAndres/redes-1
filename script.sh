@@ -34,6 +34,15 @@ echo "network:
         addresses:
         - 8.8.8.8
         - 8.8.4.4
+    enp0s10:
+      dhcp4: no
+      addresses:
+      - 192.168.255.255/24
+      gateway4: 192.168.255.1
+      nameservers:
+        addresses:
+        - 8.8.8.8
+        - 8.8.4.4
   version: 2" > /etc/netplan/00-installer-config.yaml
 
 # Aplicar los cambios
