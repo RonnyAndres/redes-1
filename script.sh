@@ -2,27 +2,82 @@
 
 # Crear carpeta y copiar archivo
 mkdir /etc/dhcp3
-cp /etc/dhcpd/dhcpd.conf /etc/dhcp3/
+cp /etc/dhcp/dhcpd.conf /etc/dhcp3/
 chmod -R 777 /etc/dhcp3/dhcpd.conf
 
 # Modificar archivo de systemd
 sed -i 's#/etc/dhcp/dhcpd.conf#/etc/dhcp3/dhcpd.conf#g' /lib/systemd/system/isc-dhcp-server.service
 
 # Agregar permisos en AppArmor
-echo "/etc/dhcp3/dhcpd.conf r," >> /etc/apparmor.d/usr.sbin.dhcp
+sed -i '30i\/etc/dhcp3/dhcpd.conf r' /etc/apparmor.d/usr.sbin.dhcp
 
 # Configurar interfaz en netplan
-echo "
-network:
+echo "network:
   ethernets:
     enp0s3:
       dhcp4: true
     enp0s8:
       addresses:
-      - 192.168.1.255/24
-      gateway4: 192.168.0.1
+      - 172.100.100.255/24
+      gateway4: 172.100.100.1
       nameservers:
         addresses:
         - 8.8.8.8
-   version: 2"> /etc/netplan/00-installer-config.yaml
+        - 8.8.4.4
+     enp0s9:
+      addresses:
+      - 172.16.100.255/24
+      gateway4: 172.16.100.1
+      nameservers:
+        addresses:
+        - 8.8.8.8
+        - 8.8.4.4
+  version: 2"> /etc/netplan/00-installer-config.yaml
+
+# Aplicar los cambios
 netplan try
+# Dar una espera de 3 segundos
+sleep 3
+# Presionar ENTER (Requisito de aplicar los cambios)
+echo -ne '\n'
+# Agregar las interfaces correspondientes
+sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8 enp0s9"/' /etc/default/isc-dhcp-server
+# Agregar las 2 subredes al archivo dhcpd.conf
+
+echo "subnet 172.100.100.0 netmask 255.255.255.0 {
+  range 172.100.100.100 172.100.100.200;
+  option routers 172.100.100.1;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+  default-lease-time 60;
+  max-lease-time 60;
+}
+
+class "impresora" {
+  match if (substring(hardware, 1, 6) = 00:00:27:C0:78:FF);
+}
+
+class "device1" {
+  match if (substring(hardware, 1, 6) = 09:00:27:C0:78:FF);
+}
+
+subnet 172.16.100.0 netmask 255.255.255.0 {
+  pool {
+    allow member of "device1";
+    range 172.16.100.10 172.16.100.50;
+  }
+  pool {
+    allow member of "impresora";
+    range 172.16.100.51 172.16.100.51;
+  }
+  option routers 172.16.100.1;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+  default-lease-time 60;
+  max-lease-time 60; 
+}">> /etc/dhcp3/dhcpd.conf
+
+systemctl 
+
+service isc-dhcp-server restart 
+service isc-dhcp-server status 
+
+
