@@ -39,7 +39,7 @@ netplan try
 # Dar una espera de 3 segundos
 sleep 3
 # Presionar ENTER (Requisito de aplicar los cambios)
-echo -ne '\n'
+#echo -ne '\n'
 # Agregar las interfaces correspondientes
 sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8 enp0s9"/' /etc/default/isc-dhcp-server
 # Agregar las 2 subredes al archivo dhcpd.conf
@@ -52,21 +52,21 @@ echo "subnet 172.100.100.0 netmask 255.255.255.0 {
   max-lease-time 60;
 }
 
-class "impresora" {
+class \"impresora\" {
   match if (substring(hardware, 1, 6) = 00:00:27:C0:78:FF);
 }
 
-class "device1" {
+class \"device1\" {
   match if (substring(hardware, 1, 6) = 09:00:27:C0:78:FF);
 }
 
 subnet 172.16.100.0 netmask 255.255.255.0 {
   pool {
-    allow member of "device1";
+    allow members of \"device1\";
     range 172.16.100.10 172.16.100.50;
   }
   pool {
-    allow member of "impresora";
+    allow members of \"impresora\";
     range 172.16.100.51 172.16.100.51;
   }
   option routers 172.16.100.1;
@@ -83,7 +83,7 @@ ifconfig enp0s3 down
 # Iniciamos el servicio
 service isc-dhcp-server restart 
 service isc-dhcp-server status 
-echo -ne "\x03"
+#echo -ne "\x03"
 
 
 
