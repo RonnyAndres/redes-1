@@ -9,10 +9,11 @@ chmod -R 777 /etc/dhcp3/dhcpd.conf
 sed -i 's#/etc/dhcp/dhcpd.conf#/etc/dhcp3/dhcpd.conf#g' /lib/systemd/system/isc-dhcp-server.service
 
 # Agregar permisos en AppArmor
-sed -i '30i\/etc/dhcp3/dhcpd.conf r' /etc/apparmor.d/usr.sbin.dhcp
+sed -i '30i\  /etc/dhcp3/dhcpd.conf r,' /etc/apparmor.d/usr.sbin.dhcpd
 
 # Configurar interfaz en netplan
-echo "network:
+echo "
+network:
   ethernets:
     enp0s3:
       dhcp4: true
@@ -24,7 +25,7 @@ echo "network:
         addresses:
         - 8.8.8.8
         - 8.8.4.4
-     enp0s9:
+    enp0s9:
       addresses:
       - 172.16.100.255/24
       gateway4: 172.16.100.1
@@ -32,7 +33,7 @@ echo "network:
         addresses:
         - 8.8.8.8
         - 8.8.4.4
-  version: 2"> /etc/netplan/00-installer-config.yaml
+  version: 2" > /etc/netplan/00-installer-config.yaml
 
 # Aplicar los cambios
 netplan try
