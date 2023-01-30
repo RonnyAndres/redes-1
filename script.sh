@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Pasos para tener en cuenta antes de ejecutar el script.
+# 1. Iniciar la maquina nueva, e instalar net-tools
+# 2. instalar el servicio de isc-dhcp-server
+# 3. Apagar la maquina y activar 3 interfaces mas desde el virtualvox
+
 # Crear carpeta y copiar archivo
 mkdir /etc/dhcp3
 cp /etc/dhcp/dhcpd.conf /etc/dhcp3/
