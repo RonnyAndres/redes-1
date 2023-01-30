@@ -20,7 +20,7 @@ zone \"obando.edu.co\" {
 zone \"0.168.192.in-addr.arpa\" {
     type master;
     file \"/etc/bind/db.pantojaobando.rev\";
-};" > /etc/bind/named.conf.default-zones 
+};" >> /etc/bind/named.conf.default-zones 
 
 # Crear el archivo de zona para PRIMER APELLIDO
 touch /etc/bind/db.pantoja.com.co.zone 
@@ -40,7 +40,7 @@ correo     IN  A   192.168.0.2
 sistemas   IN  A   192.168.0.3
 respaldo   IN  A   192.168.0.4
 www        IN  A   192.168.0.3
-www        IN  A   192.168.0.4" >> /etc/bind/db.pantoja.com.co.zone 
+www        IN  A   192.168.0.4" > /etc/bind/db.pantoja.com.co.zone 
 
 # Crear el archivo de zona para SEGUNDO APELLIDO
 touch /etc/bind/db.obando.edu.co.zone 
@@ -60,7 +60,7 @@ correo     IN  A   192.168.0.6
 sistemas   IN  A   192.168.0.7
 respaldo   IN  A   192.168.0.8
 www        IN  A   192.168.0.7
-www        IN  A   192.168.0.8" >> /etc/bind/db.obando.edu.co.zone 
+www        IN  A   192.168.0.8" > /etc/bind/db.obando.edu.co.zone 
 
 # ---------------------------------- Punto #2 --------------------------------
 touch /etc/bind/db.pantojaobando.rev
@@ -82,9 +82,18 @@ echo "\$TTL 604800
 5   IN  PTR ns1.obando.edu.co.
 6   IN  PTR correo.obando.edu.co.
 7   IN  PTR sistemas.obando.edu.co.
-8   IN  PTR respaldo.obando.edu.co." >> /etc/bind/db.pantojaobando.rev
+8   IN  PTR respaldo.obando.edu.co." > /etc/bind/db.pantojaobando.rev
 
-
+echo "options {
+        directory "/var/cache/bind";
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+        dnssec-validation auto;
+        auth-nxdomain no;
+        listen-on-v4 { any; };
+};" >> /etc/bind/named.conf
 
 service bind9 restart
 service bind9 status
