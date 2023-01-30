@@ -15,12 +15,23 @@ zone \"obando.edu.co\" {
     type master;
     file \"/etc/bind/db.obando.edu.co.zone\";
 };
+zone \"localhost\" {
+    type master;
+    file \"/etc/bind/db.localhost.zone\";
+};
 
 // ----------- Resolucion Inversa de los dos dominios ----------------
 zone \"0.168.192.in-addr.arpa\" {
     type master;
     file \"/etc/bind/db.pantojaobando.rev\";
-};" >> /etc/bind/named.conf.default-zones 
+};
+zone \"0.0.172.in-addr.arpa\" {
+    type master;
+    file \"/etc/bind/db.127\";
+};
+
+
+" >> /etc/bind/named.conf.default-zones 
 
 # Crear el archivo de zona para PRIMER APELLIDO
 touch /etc/bind/db.pantoja.com.co.zone 
@@ -61,6 +72,36 @@ sistemas   IN  A   192.168.0.7
 respaldo   IN  A   192.168.0.8
 www        IN  A   192.168.0.7
 www        IN  A   192.168.0.8" > /etc/bind/db.obando.edu.co.zone 
+
+# Crear el archivo de LOCALHOST
+
+echo "\$TTL 604800
+@   IN  SOA localhost. admin.localhost. (
+                  2         ; Serial
+             604800         ; Refresh
+              86400         ; Retry
+            2419200         ; Expire
+             604800 )       ; Negative Cache TTL
+;
+@   IN  NS  localhost.
+@   IN  A   127.0.0.1
+
+localhost.    IN  A   127.0.0.1" > /etc/bind/db.localhost.zone
+
+# Creamos el archivo inverso
+echo ";
+; BIND reverse data file for local loopback interface
+;
+\$TTL	604800
+@	IN	SOA	localhost. root.localhost. (
+			      1		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@	IN	NS	localhost.
+1	IN	PTR	localhost." > /etc/bin/db.127
 
 # ---------------------------------- Punto #2 --------------------------------
 touch /etc/bind/db.pantojaobando.rev
