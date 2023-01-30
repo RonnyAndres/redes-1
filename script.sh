@@ -42,8 +42,8 @@ echo "network:
     enp0s10:
       dhcp4: no
       addresses:
-      - 192.168.255.255/24
-      gateway4: 192.168.255.1
+      - 192.168.1.255/24
+      gateway4: 192.168.1.1
       nameservers:
         addresses:
         - 8.8.8.8
