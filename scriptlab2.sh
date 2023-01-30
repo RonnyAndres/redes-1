@@ -19,7 +19,7 @@ zone \"obando.edu.co\" {
 // ----------- Resolucion Inversa de los dos dominios ----------------
 zone \"0.168.192.in-addr.arpa\" {
     type master;
-    file \"/etc/bind/db.pantojaobando.rev;
+    file \"/etc/bind/db.pantojaobando.rev\";
 };" > /etc/bind/named.conf.default-zones 
 
 # Crear el archivo de zona para PRIMER APELLIDO
@@ -82,7 +82,8 @@ echo "\$TTL 604800
 5   IN  PTR ns1.obando.edu.co.
 6   IN  PTR correo.obando.edu.co.
 7   IN  PTR sistemas.obando.edu.co.
-8   IN  PTR respaldo.obando.edu.co." >> /etc/bind/pantojaobando.rev
+8   IN  PTR respaldo.obando.edu.co." >> /etc/bind/db.pantojaobando.rev
+
 
 
 service bind9 restart
