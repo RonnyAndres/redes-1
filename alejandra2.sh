@@ -5,13 +5,13 @@ apt-get install -y bind9
 #\"si\"
 
 # Configurar el archivo de configuración del servidor DNS
-echo "zone \"pantoja.com.co\" {
+echo "zone \"cuchala.com.co\" {
     type master;
-    file \"/etc/bind/db.pantoja.com.co.zone\";
+    file \"/etc/bind/db.cuchala.com.co.zone\";
 };
-zone \"obando.edu.co\" {
+zone \"figueroa.edu.co\" {
     type master;
-    file \"/etc/bind/db.obando.edu.co.zone\";
+    file \"/etc/bind/db.figueroa.edu.co.zone\";
 };
 zone \"localhost\" {
     type master;
@@ -20,7 +20,7 @@ zone \"localhost\" {
 // ----------- Resolucion Inversa de los dos dominios ----------------
 zone \"1.168.192.in-addr.arpa\" {
     type master;
-    file \"/etc/bind/db.pantojaobando.rev\";
+    file \"/etc/bind/db.dominios.rev\";
 };
 zone \"0.0.172.in-addr.arpa\" {
     type master;
@@ -29,42 +29,42 @@ zone \"0.0.172.in-addr.arpa\" {
 " >> /etc/bind/named.conf.default-zones 
 
 # Crear el archivo de zona para PRIMER APELLIDO
-touch /etc/bind/db.pantoja.com.co.zone 
+touch /etc/bind/db.cuchala.com.co.zone 
 echo "\$TTL 604800
-@   IN  SOA ns1.pantoja.com.co. admin.pantoja.com.co. (
+@   IN  SOA ns1.cuchala.com.co. admin.cuchala.com.co. (
                   2         ; Serial
              604800         ; Refresh
               86400         ; Retry
             2419200         ; Expire
              604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  ns1.pantoja.com.co.
+@   IN  NS  ns1.cuchala.com.co.
 @   IN  A   192.168.1.1
 ns1        IN  A   192.168.1.1
 correo     IN  A   192.168.1.2
 sistemas   IN  A   192.168.1.3
 respaldo   IN  A   192.168.1.4
 www        IN  A   192.168.1.3
-www        IN  A   192.168.1.4" > /etc/bind/db.pantoja.com.co.zone 
+www        IN  A   192.168.1.4" > /etc/bind/db.cuchala.com.co.zone 
 
 # Crear el archivo de zona para SEGUNDO APELLIDO
-touch /etc/bind/db.obando.edu.co.zone 
+touch /etc/bind/db.figueroa.edu.co.zone 
 echo "\$TTL 604800
-@   IN  SOA ns1.obando.edu.co. admin.obando.edu.co. (
+@   IN  SOA ns1.figueroa.edu.co. admin.figueroa.edu.co. (
                   2         ; Serial
              604800         ; Refresh
               86400         ; Retry
             2419200         ; Expire
              604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  ns1.obando.edu.co.
+@   IN  NS  ns1.figueroa.edu.co.
 @   IN  A   192.168.1.1
 ns1        IN  A   192.168.1.5
 correo     IN  A   192.168.1.6
 sistemas   IN  A   192.168.1.7
 respaldo   IN  A   192.168.1.8
 www        IN  A   192.168.1.7
-www        IN  A   192.168.1.8" > /etc/bind/db.obando.edu.co.zone 
+www        IN  A   192.168.1.8" > /etc/bind/db.figueroa.edu.co.zone 
 
 # Crear el archivo de LOCALHOST
 
@@ -96,25 +96,25 @@ echo ";
 1	IN	PTR	localhost." > /etc/bin/db.127
 
 # ---------------------------------- Punto #2 --------------------------------
-touch /etc/bind/db.pantojaobando.rev
+touch /etc/bind/db.dominios.rev
 
 echo "\$TTL 604800
-@   IN  SOA ns1.pantoja.com.co. admin.pantoja.com.co. (
+@   IN  SOA ns1.cuchala.com.co. admin.cuchala.com.co. (
                   2         ; Serial
              604800         ; Refresh
               86400         ; Retry
             2419200         ; Expire
              604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  ns1.pantoja.com.co.
-1   IN  PTR ns1.pantoja.com.co.
-2   IN  PTR correo.pantoja.com.co.
-3   IN  PTR sistemas.pantoja.com.co.
-4   IN  PTR respaldo.pantoja.com.co.
-5   IN  PTR ns1.obando.edu.co.
-6   IN  PTR correo.obando.edu.co.
-7   IN  PTR sistemas.obando.edu.co.
-8   IN  PTR respaldo.obando.edu.co." > /etc/bind/db.pantojaobando.rev
+@   IN  NS  ns1.cuchala.com.co.
+1   IN  PTR ns1.cuchala.com.co.
+2   IN  PTR correo.cuchala.com.co.
+3   IN  PTR sistemas.cuchala.com.co.
+4   IN  PTR respaldo.cuchala.com.co.
+5   IN  PTR ns1.figueroa.edu.co.
+6   IN  PTR correo.figueroa.edu.co.
+7   IN  PTR sistemas.figueroa.edu.co.
+8   IN  PTR respaldo.figueroa.edu.co." > /etc/bind/db.dominios.rev
 
 echo "options {
         directory "/var/cache/bind";
