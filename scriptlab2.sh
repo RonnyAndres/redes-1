@@ -31,7 +31,7 @@ zone \"0.0.172.in-addr.arpa\" {
 };
 
 
-" >> /etc/bind/named.conf.default-zones 
+" > /etc/bind/named.conf.default-zones 
 
 # Crear el archivo de zona para PRIMER APELLIDO
 touch /etc/bind/db.pantoja.com.co.zone 
@@ -125,16 +125,7 @@ echo "\$TTL 604800
 7   IN  PTR sistemas.obando.edu.co.
 8   IN  PTR respaldo.obando.edu.co." > /etc/bind/db.pantojaobando.rev
 
-echo "options {
-        directory "/var/cache/bind";
-        forwarders {
-                8.8.8.8;
-                8.8.4.4;
-        };
-        dnssec-validation auto;
-        auth-nxdomain no;
-        listen-on-v4 { any; };
-};" >> /etc/bind/named.conf
+
 
 sed -i '17s/nameserver 127.0.0.53/nameserver 192.168.1.255/' /etc/resolv.conf
 
