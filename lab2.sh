@@ -125,7 +125,16 @@ echo "\$TTL 604800
 7   IN  PTR sistemas.obando.edu.co.
 8   IN  PTR respaldo.obando.edu.co." > /etc/bind/db.pantojaobando.rev
 
-
+echo "options {
+        directory \"/var/cache/bind\";
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+        dnssec-validation auto;
+        auth-nxdomain no;
+        listen-on-v6 { any; };
+};" > /etc/bind/named.conf.options
 
 sed -i '17s/nameserver 127.0.0.53/nameserver 192.168.1.10/' /etc/resolv.conf
 
