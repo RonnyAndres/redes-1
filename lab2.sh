@@ -127,7 +127,7 @@ echo "\$TTL 604800
 
 
 
-sed -i '17s/nameserver 127.0.0.53/nameserver 192.168.1.255/' /etc/resolv.conf
+sed -i '17s/nameserver 127.0.0.53/nameserver 192.168.1.10/' /etc/resolv.conf
 
 service bind9 restart
 service bind9 status
