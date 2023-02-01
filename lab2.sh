@@ -25,7 +25,7 @@ zone \"1.168.192.in-addr.arpa\" {
     type master;
     file \"/etc/bind/db.pantojaobando.rev\";
 };
-zone \"0.0.172.in-addr.arpa\" {
+zone \"0.0.127.in-addr.arpa\" {
     type master;
     file \"/etc/bind/db.127\";
 };
