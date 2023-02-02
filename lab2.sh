@@ -6,47 +6,36 @@ apt-get install -y bind9
 #\"si\"
 
 # Configurar el archivo de configuración del servidor DNS
-echo "zone \"pantoja.com.co\" {
+echo "zone \"pantoja.com.co.\" {
     type master;
     file \"/etc/bind/db.pantoja.com.co.zone\";
 };
 
-zone \"obando.edu.co\" {
+zone \"obando.edu.co.\" {
     type master;
     file \"/etc/bind/db.obando.edu.co.zone\";
 };
-zone \"localhost\" {
-    type master;
-    file \"/etc/bind/db.localhost.zone\";
-};
+
 
 // ----------- Resolucion Inversa de los dos dominios ----------------
 zone \"0.16.172.in-addr.arpa\" {
     type master;
     file \"/etc/bind/db.pantojaobando.rev\";
-};
-zone \"0.0.127.in-addr.arpa\" {
-    type master;
-    file \"/etc/bind/db.127\";
-};
-
-
-" > /etc/bind/named.conf.default-zones 
+};" > /etc/bind/named.conf.local 
 
 # Crear el archivo de zona para PRIMER APELLIDO
 touch /etc/bind/db.pantoja.com.co.zone 
 echo "\$TTL 604800
-@   IN  SOA ns1.pantoja.com.co. admin.pantoja.com.co. (
+@   IN  SOA pantoja.com.co. root.pantoja.com.co. (
                   2         ; Serial
              604800         ; Refresh
               86400         ; Retry
             2419200         ; Expire
              604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  ns1.pantoja.com.co.
-@   IN  A   172.16.0.1
+@   IN  NS  pantoja.com.co.
 
-ns1        IN  A   172.16.0.1
+@   	   IN  A   172.16.0.1
 correo     IN  A   172.16.0.2
 sistemas   IN  A   172.16.0.3
 respaldo   IN  A   172.16.0.4
@@ -56,71 +45,40 @@ www        IN  A   172.16.0.4" > /etc/bind/db.pantoja.com.co.zone
 # Crear el archivo de zona para SEGUNDO APELLIDO
 touch /etc/bind/db.obando.edu.co.zone 
 echo "\$TTL 604800
-@   IN  SOA ns1.obando.edu.co. admin.obando.edu.co. (
+@   IN  SOA obando.edu.co. root.obando.edu.co. (
                   2         ; Serial
              604800         ; Refresh
               86400         ; Retry
             2419200         ; Expire
              604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  ns1.obando.edu.co.
-@   IN  A   172.16.0.1
+@   IN  NS  obando.edu.co.
 
-ns1        IN  A   172.16.0.5
+@          IN  A   172.16.0.5
 correo     IN  A   172.16.0.6
 sistemas   IN  A   172.16.0.7
 respaldo   IN  A   172.16.0.8
 www        IN  A   172.16.0.7
 www        IN  A   172.16.0.8" > /etc/bind/db.obando.edu.co.zone 
 
-# Crear el archivo de LOCALHOST
-
-echo "\$TTL 604800
-@   IN  SOA localhost. admin.localhost. (
-                  2         ; Serial
-             604800         ; Refresh
-              86400         ; Retry
-            2419200         ; Expire
-             604800 )       ; Negative Cache TTL
-;
-@   IN  NS  localhost.
-@   IN  A   127.0.0.1
-
-localhost.    IN  A   127.0.0.1" > /etc/bind/db.localhost.zone
-
-# Creamos el archivo inverso
-echo ";
-; BIND reverse data file for local loopback interface
-;
-\$TTL	604800
-@	IN	SOA	localhost. root.localhost. (
-			      1		; Serial
-			 604800		; Refresh
-			  86400		; Retry
-			2419200		; Expire
-			 604800 )	; Negative Cache TTL
-;
-@	IN	NS	localhost.
-1	IN	PTR	localhost." > /etc/bin/db.127
-
 # ---------------------------------- Punto #2 --------------------------------
 touch /etc/bind/db.pantojaobando.rev
 
 echo "\$TTL 604800
-@   IN  SOA ns1.pantoja.com.co. admin.pantoja.com.co. (
-                  2         ; Serial
+@   IN  SOA pantoja.com.co. root.pantoja.com.co. (
+                  3         ; Serial
              604800         ; Refresh
               86400         ; Retry
             2419200         ; Expire
              604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  ns1.pantoja.com.co.
+@   IN  NS  pantoja.com.co.
 
-1   IN  PTR ns1.pantoja.com.co.
+1   IN  PTR pantoja.com.co.
 2   IN  PTR correo.pantoja.com.co.
 3   IN  PTR sistemas.pantoja.com.co.
 4   IN  PTR respaldo.pantoja.com.co.
-5   IN  PTR ns1.obando.edu.co.
+5   IN  PTR obando.edu.co.
 6   IN  PTR correo.obando.edu.co.
 7   IN  PTR sistemas.obando.edu.co.
 8   IN  PTR respaldo.obando.edu.co." > /etc/bind/db.pantojaobando.rev
@@ -136,7 +94,7 @@ echo "options {
         listen-on-v6 { any; };
 };" > /etc/bind/named.conf.options
 
-sed -i '17s/nameserver 127.0.0.53/nameserver 172.16.0.10/' /etc/resolv.conf
+sed -i '17s/nameserver 127.0.0.53/nameserver 172.16.0.1/' /etc/resolv.conf
 
 service bind9 restart
 service bind9 status
