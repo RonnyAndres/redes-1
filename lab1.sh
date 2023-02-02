@@ -7,6 +7,8 @@
 apt update
 apt install net-tools -y
 apt install isc-dhcp-server -y
+apt install bind9 -y
+apt install apache2 -y
 
 # Crear carpeta y copiar archivo
 mkdir /etc/dhcp3
