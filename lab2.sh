@@ -21,7 +21,7 @@ zone \"obando.edu.co.\" {
 zone \"0.16.172.in-addr.arpa\" {
     type master;
     file \"/etc/bind/db.pantojaobando.rev\";
-};" > /etc/bind/named.conf.local 
+};" >> /etc/bind/named.conf.local 
 
 # Crear el archivo de zona para PRIMER APELLIDO
 touch /etc/bind/db.pantoja.com.co.zone 
