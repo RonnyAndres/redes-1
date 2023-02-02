@@ -76,7 +76,7 @@ subnet 172.16.0.0 netmask 255.255.255.0 {
   option domain-name-servers 8.8.8.8, 8.8.4.4;
   default-lease-time 60;
   max-lease-time 60; 
-}">> /etc/dhcp3/dhcpd.conf
+}" > /etc/dhcp3/dhcpd.conf
 
 # Subir las interfaces
 ifconfig enp0s3 up
