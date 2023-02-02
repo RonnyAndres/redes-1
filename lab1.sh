@@ -4,6 +4,9 @@
 # 1. Iniciar la maquina nueva, e instalar net-tools
 # 2. instalar el servicio de isc-dhcp-server
 # 3. Apagar la maquina y activar 3 interfaces mas desde el virtualvox
+apt update
+apt install net-tools -y
+apt install isc-dhcp-server -y
 
 # Crear carpeta y copiar archivo
 mkdir /etc/dhcp3
@@ -35,8 +38,7 @@ echo "network:
       - 172.16.0.8/16
     enp0s8:
       addresses:
-      - 192.168.100.1/24
-      dhcp4: false
+      dhcp4: true
   version: 2" > /etc/netplan/00-installer-config.yaml
 
 # Aplicar los cambios
@@ -46,7 +48,7 @@ sleep 3
 # Presionar ENTER (Requisito de aplicar los cambios)
 #echo -ne '\n'
 # Agregar las interfaces correspondientes
-sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8 enp0s3"/' /etc/default/isc-dhcp-server
+sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s3"/' /etc/default/isc-dhcp-server
 # Agregar las 2 subredes al archivo dhcpd.conf
 
 echo "class \"impresora\" {
