@@ -17,6 +17,8 @@ echo "network:
         - 8.8.8.8
         - 8.8.4.4
   version: 2" > /etc/netplan/00-installer-config.yaml
+  
+netplan try
 # Configurar el archivo de configuración del servidor DNS
 echo "zone \"pantoja.com.co\" {
     type master;
