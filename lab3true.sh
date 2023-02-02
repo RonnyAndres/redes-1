@@ -1,6 +1,6 @@
 mkdir -p /var/www/pantoja.com.co/privado
 mkdir -p /var/www/obando.edu.co
-
+a2enmod rewrite
 
 echo "<html>
 <head>
