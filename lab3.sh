@@ -43,7 +43,7 @@ a2ensite pantoja.com.co.conf
 a2ensite obando.edu.co.conf
 a2dissite 000-default.conf
 
-Reiniciar Apache
+#Reiniciar Apache
 systemctl restart apache2
 
 # Habilitar firewall y permitir puertos ssh y 8080
