@@ -2,7 +2,7 @@
 # ----------------------------------- Punto #1 -----------------------------------------------
 # Instalamos el servicio 
 apt-get update
-apt-get install -y bind9
+#apt-get install -y bind9
 #\"si\"
 
 # Configurar el archivo de configuración del servidor DNS
