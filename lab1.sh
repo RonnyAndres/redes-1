@@ -24,24 +24,19 @@ sed -i '30i\  /etc/dhcp3/dhcpd.conf r,' /etc/apparmor.d/usr.sbin.dhcpd
 echo "network:
   ethernets:
     enp0s3:
-      dhcp4: true
+      addresses:
+      - 172.16.23.1/16
+      - 172.16.23.2/16
+      - 172.16.23.3/16
+      - 172.16.23.4/16
+      - 172.16.23.5/16
+      - 172.16.23.6/16
+      - 172.16.23.7/16
+      - 172.16.23.8/16
     enp0s8:
       addresses:
-      - 172.16.100.255/24
-      gateway4: 172.16.100.1
-      nameservers:
-        addresses:
-        - 8.8.8.8
-        - 8.8.4.4
-    enp0s10: 
-      dhcp4: no
-      addresses:
-      - 192.168.1.10/24
-      gateway4: 192.168.1.1
-      nameservers:
-        addresses:
-        - 8.8.8.8
-        - 8.8.4.4
+      - 192.168.100.1/24
+      dhcp4: false
   version: 2" > /etc/netplan/00-installer-config.yaml
 
 # Aplicar los cambios
@@ -59,32 +54,31 @@ echo "class \"impresora\" {
 }
 
 class \"device1\" {
-  match if (substring(hardware, 1, 6) = 09:00:27:C0:78:FF);
+  match if (substring(hardware, 1, 6) = 08:00:27:C0:78:FF);
 }
 
-subnet 172.16.100.0 netmask 255.255.255.0 {
+subnet 172.16.23.0 netmask 255.255.255.0 {
   pool {
     allow members of \"device1\";
-    range 172.16.100.10 172.16.100.50;
+    range 172.16.23.10 172.16.23.50;
   }
   pool {
     allow members of \"impresora\";
-    range 172.16.100.51 172.16.100.51;
+    range 172.16.23.51 172.16.23.51;
   }
   pool {
     deny members of \"device1\";
-    range 172.16.100.100 172.16.100.200;
+    range 172.16.23.100 172.16.23.200;
   }
-  option routers 172.16.100.1;
+  option routers 172.16.23.1;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
   default-lease-time 60;
   max-lease-time 60; 
 }">> /etc/dhcp3/dhcpd.conf
 
 # Subir las interfaces
-ifconfig enp0s8 up
-ifconfig enp0s3 down 
-ifconfig enp0s10 down 
+ifconfig enp0s3 up
+ifconfig enp0s8 down  
 
 # Iniciamos el servicio
 service isc-dhcp-server restart 
