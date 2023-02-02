@@ -1,6 +1,7 @@
 # ----------------------------------- Punto #1 -----------------------------------------------
 # Instalamos el servicio 
 apt-get update
+apt install -y net-tools
 apt-get install -y bind9
 #\"si\"
 
