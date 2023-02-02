@@ -25,14 +25,14 @@ echo "network:
   ethernets:
     enp0s3:
       addresses:
-      - 172.16.23.1/16
-      - 172.16.23.2/16
-      - 172.16.23.3/16
-      - 172.16.23.4/16
-      - 172.16.23.5/16
-      - 172.16.23.6/16
-      - 172.16.23.7/16
-      - 172.16.23.8/16
+      - 172.16.0.1/16
+      - 172.16.0.2/16
+      - 172.16.0.3/16
+      - 172.16.0.4/16
+      - 172.16.0.5/16
+      - 172.16.0.6/16
+      - 172.16.0.7/16
+      - 172.16.0.8/16
     enp0s8:
       addresses:
       - 192.168.100.1/24
@@ -46,7 +46,7 @@ sleep 3
 # Presionar ENTER (Requisito de aplicar los cambios)
 #echo -ne '\n'
 # Agregar las interfaces correspondientes
-sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8"/' /etc/default/isc-dhcp-server
+sed -i '17s/INTERFACESv4=""/INTERFACESv4="enp0s8 enp0s3"/' /etc/default/isc-dhcp-server
 # Agregar las 2 subredes al archivo dhcpd.conf
 
 echo "class \"impresora\" {
@@ -57,20 +57,20 @@ class \"device1\" {
   match if (substring(hardware, 1, 6) = 08:00:27:C0:78:FF);
 }
 
-subnet 172.16.23.0 netmask 255.255.255.0 {
+subnet 172.16.0.0 netmask 255.255.255.0 {
   pool {
     allow members of \"device1\";
-    range 172.16.23.10 172.16.23.50;
+    range 172.16.0.10 172.16.0.50;
   }
   pool {
     allow members of \"impresora\";
-    range 172.16.23.51 172.16.23.51;
+    range 172.16.0.51 172.16.0.51;
   }
   pool {
     deny members of \"device1\";
-    range 172.16.23.100 172.16.23.200;
+    range 172.16.0.100 172.16.0.200;
   }
-  option routers 172.16.23.1;
+  option routers 172.16.0.1;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
   default-lease-time 60;
   max-lease-time 60; 
