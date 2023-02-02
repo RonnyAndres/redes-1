@@ -76,7 +76,7 @@ echo "\$TTL 604800
 ;
 @   IN  NS  localhost.
 @   IN  A   127.0.0.1
-localhost.    IN  A   127.0.0.1" > /etc/bind/db.localhost.zone
+localhost    IN  A   127.0.0.1" > /etc/bind/db.localhost.zone
 
 # Creamos el archivo inverso
 echo ";
