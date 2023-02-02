@@ -4,19 +4,19 @@ a2enmod rewrite
 
 echo "<html>
 <head>
-<title>Página de pantoja.com.co.</title>
+  <title>Página de pantoja.com.co.</title>
 </head>
 <body>
-<h1>Bienvenidos a pantoja.com.co.</h1>
+  <h1>Bienvenidos a pantoja.com.co.</h1>
 </body>
 </html>" > /var/www/pantoja.com.co/index.html
 
 echo "<html>
 <head>
-<title>Página de obando.edu.co.</title>
+  <title>Página de obando.edu.co.</title>
 </head>
 <body>
-<h1>Bienvenidos a obando.edu.co.</h1>
+  <h1>Bienvenidos a obando.edu.co.</h1>
 </body>
 </html>" > /var/www/obando.edu.co/index.html
 
@@ -30,21 +30,21 @@ echo "<VirtualHost *:80>
               ServerAdmin webmaster@localhost
               ServerName sistemas.pantoja.com.co
               DocumentRoot /var/www/pantoja.com.co
-              ErrorDocument 404 "No found page"
-              <Directory "/var/www/pantoja.com.co/privado">
+              ErrorDocument 404 \"No found page\"
+              <Directory \"/var/www/pantoja.com.co/privado\">
                 AuthType Basic
-                AuthName "Restricted Content"
+                AuthName \"Restricted Content\"
                 AuthuserFile /var/www/pantoja.com.co/privado/.htpasswd
                 Require valid-user
               </Directory> 
 </VirtualHost>" > /etc/apache2/sites-available/pantoja.com.co.conf
 
-echo "<VirtualHost *:8080>
+echo "<VirtualHost *:80>
               ServerAdmin webmaster@localhost
               ServerName respaldo.obando.edu.co
               DocumentRoot /var/www/obando.edu.co
-              ErrorLog ${APACHE_LOG_DIR}/error.log
-              CustomLog ${APACHE_LOG_DIR}/access.log combined
+              ErrorLog \${APACHE_LOG_DIR}/error.log
+              CustomLog \${APACHE_LOG_DIR}/access.log combined
       Redirect 301 /google http://google.com
 </VirtualHost>" > /etc/apache2/sites-available/obando.edu.co.conf
 
@@ -73,11 +73,11 @@ systemctl status apache2
 a2enmod info
 
 # /etc/apache2/mods-enabled/status.conf
- <Location "/server-status">
+echo "<Location \"/server-status\">
       SetHandler server-status
       Require local
       Require ip 172.16.0.10
- </Location>
+ </Location>" >> /etc/apache2/mods-enabled/status.conf
  
 systemctl restart apache2
 systemctl status apache2
