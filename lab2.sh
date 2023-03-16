@@ -6,21 +6,15 @@ apt-get update
 #\"si\"
 
 # Configurar el archivo de configuración del servidor DNS
-echo "zone \"pantoja.com.co.\" {
+echo "zone \"udenar.co.\" {
     type master;
     file \"/etc/bind/db.pantoja.com.co.zone\";
 };
 
-zone \"obando.edu.co.\" {
-    type master;
-    file \"/etc/bind/db.obando.edu.co.zone\";
-};
-
-
 // ----------- Resolucion Inversa de los dos dominios ----------------
 zone \"0.16.172.in-addr.arpa\" {
     type master;
-    file \"/etc/bind/db.pantojaobando.rev\";
+    file \"/etc/bind/db.udenar.co\";
 };" >> /etc/bind/named.conf.local 
 
 # Crear el archivo de zona para PRIMER APELLIDO
